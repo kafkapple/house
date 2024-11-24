@@ -1,0 +1,45 @@
+import requests
+
+cookies = {
+    'NAC': 'otGKBYgFQJqg',
+    'NNB': '627SWJZ35YQGO',
+    'nid_inf': '184739191',
+    'NID_AUT': 'W/Xv2i1jyBiG9Pqn4wKDJBbnmypDfWDrvEAg6a5RJVAJGpRaEPmP2LXSL31UUYH7',
+    'NID_JKL': 'p/3QoadrEM0oU/5i8q2Ay7jqxlJRDfM+EHAlBwsvv/o=',
+    'ba.uuid': '7ec8cd3d-fbef-403b-b03e-9ef8c95eb876',
+    'nhn.realestate.article.trade_type_cd': '""',
+    'nhn.realestate.article.ipaddress_city': '3000000000',
+    '_fwb': '186OA0mYbJ3K9sB2W67kDiZ.1732177776292',
+    'landHomeFlashUseYn': 'Y',
+    '_fwb': '186OA0mYbJ3K9sB2W67kDiZ.1732177776292',
+    'nhn.realestate.article.rlet_type_cd': 'A01',
+    'page_uid': 'i0Z1OsqVOsosssPV93Rssssssbo-251805',
+    'NACT': '1',
+    'realestate.beta.lastclick.cortar': '3017000000',
+    'NID_SES': 'AAABvGK86n/dZFaIOsrGGdpdgDNCbEQeSzI3Kc7ZB/SpVkNjYTnvMOMErOYMJSmOfCRsDttSU9uRgsahMh3J8+k834zp62aUxSj0Z6swinrZU6BFFW8qj3uh6Qt46wD6Ytv8T0yEK5tqdzaKLFNKMYugU0eLW3AWNm7V3wZoXluoUTjuQBN7Tvg3ZvI7N7jfLOyOQTg42GI12Tdovo2vXvGwrtoq40HaTpKCuN6rxsa7NB0scyf9V2TCyjpe6TVlZDsL+h3E6MI4ARjpA5hqlyxqXXQo+nAjyC6DxOqZg/7kVuwLi0VYxRKOFLP+uKf3GjZjgpe3Ar6LGKJIrBA7ChNEPOtc/X6wEnwl0ZYRkp8uIcao08ZhDLzug0nF3kc9nPQPkGqB/abtyy2rJ5qJe2/EOP5Ld4UZw+AXCkM48Tiu0UJ05iybAC3Y8wrqY9GxkVJ28ggzp/6lo2/b5UjyKQI78yy4Qn1XCwlagLc+KYMuhPc1Erv6cm49fvHbGIECmZukGwdwteL6D1EPNNZKuqtVSB6w9aGDfwnNv+OBYcsb+aTPTudMmNCGTSeHOgP8KC+nS/oTFNdY2Emom5RVU814g1U=',
+    'REALESTATE': 'Sun%20Nov%2024%202024%2015%3A25%3A12%20GMT%2B0900%20(Korean%20Standard%20Time)',
+    'wcs_bt': '4f99b5681ce60:1732429514',
+    'BUC': 'R94NaSLqT12TDLxZzckOs7wcFDDGua8pse64f_A-hZc=',
+}
+
+headers = {
+    'accept': '*/*',
+    'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7',
+    'authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlJFQUxFU1RBVEUiLCJpYXQiOjE3MzI0Mjk1MTIsImV4cCI6MTczMjQ0MDMxMn0.WsebHViURDIKb0mH4nP0BG4Zlr8YSw4c41FLilVNmIY',
+    # 'cookie': 'NAC=otGKBYgFQJqg; NNB=627SWJZ35YQGO; nid_inf=184739191; NID_AUT=W/Xv2i1jyBiG9Pqn4wKDJBbnmypDfWDrvEAg6a5RJVAJGpRaEPmP2LXSL31UUYH7; NID_JKL=p/3QoadrEM0oU/5i8q2Ay7jqxlJRDfM+EHAlBwsvv/o=; ba.uuid=7ec8cd3d-fbef-403b-b03e-9ef8c95eb876; nhn.realestate.article.trade_type_cd=""; nhn.realestate.article.ipaddress_city=3000000000; _fwb=186OA0mYbJ3K9sB2W67kDiZ.1732177776292; landHomeFlashUseYn=Y; _fwb=186OA0mYbJ3K9sB2W67kDiZ.1732177776292; nhn.realestate.article.rlet_type_cd=A01; page_uid=i0Z1OsqVOsosssPV93Rssssssbo-251805; NACT=1; realestate.beta.lastclick.cortar=3017000000; NID_SES=AAABvGK86n/dZFaIOsrGGdpdgDNCbEQeSzI3Kc7ZB/SpVkNjYTnvMOMErOYMJSmOfCRsDttSU9uRgsahMh3J8+k834zp62aUxSj0Z6swinrZU6BFFW8qj3uh6Qt46wD6Ytv8T0yEK5tqdzaKLFNKMYugU0eLW3AWNm7V3wZoXluoUTjuQBN7Tvg3ZvI7N7jfLOyOQTg42GI12Tdovo2vXvGwrtoq40HaTpKCuN6rxsa7NB0scyf9V2TCyjpe6TVlZDsL+h3E6MI4ARjpA5hqlyxqXXQo+nAjyC6DxOqZg/7kVuwLi0VYxRKOFLP+uKf3GjZjgpe3Ar6LGKJIrBA7ChNEPOtc/X6wEnwl0ZYRkp8uIcao08ZhDLzug0nF3kc9nPQPkGqB/abtyy2rJ5qJe2/EOP5Ld4UZw+AXCkM48Tiu0UJ05iybAC3Y8wrqY9GxkVJ28ggzp/6lo2/b5UjyKQI78yy4Qn1XCwlagLc+KYMuhPc1Erv6cm49fvHbGIECmZukGwdwteL6D1EPNNZKuqtVSB6w9aGDfwnNv+OBYcsb+aTPTudMmNCGTSeHOgP8KC+nS/oTFNdY2Emom5RVU814g1U=; REALESTATE=Sun%20Nov%2024%202024%2015%3A25%3A12%20GMT%2B0900%20(Korean%20Standard%20Time); wcs_bt=4f99b5681ce60:1732429514; BUC=R94NaSLqT12TDLxZzckOs7wcFDDGua8pse64f_A-hZc=',
+    'priority': 'u=1, i',
+    'referer': 'https://new.land.naver.com/complexes/6372?ms=36.321777,127.40236,17&a=APT:ABYG:JGC:PRE&e=RETAIL',
+    'sec-ch-ua': '"Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"',
+    'sec-ch-ua-mobile': '?0',
+    'sec-ch-ua-platform': '"Windows"',
+    'sec-fetch-dest': 'empty',
+    'sec-fetch-mode': 'cors',
+    'sec-fetch-site': 'same-origin',
+    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
+}
+
+params = {
+    'sameAddressGroup': 'true',
+}
+
+response = requests.get('https://new.land.naver.com/api/complexes/6372', params=params, cookies=cookies, headers=headers)

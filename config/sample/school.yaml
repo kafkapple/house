@@ -1,0 +1,310 @@
+import requests
+
+cookies = {
+    'NAC': 'otGKBYgFQJqg',
+    'NNB': '627SWJZ35YQGO',
+    'nid_inf': '184739191',
+    'NID_AUT': 'W/Xv2i1jyBiG9Pqn4wKDJBbnmypDfWDrvEAg6a5RJVAJGpRaEPmP2LXSL31UUYH7',
+    'NID_JKL': 'p/3QoadrEM0oU/5i8q2Ay7jqxlJRDfM+EHAlBwsvv/o=',
+    'ba.uuid': '7ec8cd3d-fbef-403b-b03e-9ef8c95eb876',
+    'nhn.realestate.article.trade_type_cd': '""',
+    'nhn.realestate.article.ipaddress_city': '3000000000',
+    '_fwb': '186OA0mYbJ3K9sB2W67kDiZ.1732177776292',
+    'landHomeFlashUseYn': 'Y',
+    '_fwb': '186OA0mYbJ3K9sB2W67kDiZ.1732177776292',
+    'nhn.realestate.article.rlet_type_cd': 'A01',
+    'page_uid': 'i0Z1OsqVOsosssPV93Rssssssbo-251805',
+    'NACT': '1',
+    'realestate.beta.lastclick.cortar': '3017000000',
+    'NID_SES': 'AAABvGK86n/dZFaIOsrGGdpdgDNCbEQeSzI3Kc7ZB/SpVkNjYTnvMOMErOYMJSmOfCRsDttSU9uRgsahMh3J8+k834zp62aUxSj0Z6swinrZU6BFFW8qj3uh6Qt46wD6Ytv8T0yEK5tqdzaKLFNKMYugU0eLW3AWNm7V3wZoXluoUTjuQBN7Tvg3ZvI7N7jfLOyOQTg42GI12Tdovo2vXvGwrtoq40HaTpKCuN6rxsa7NB0scyf9V2TCyjpe6TVlZDsL+h3E6MI4ARjpA5hqlyxqXXQo+nAjyC6DxOqZg/7kVuwLi0VYxRKOFLP+uKf3GjZjgpe3Ar6LGKJIrBA7ChNEPOtc/X6wEnwl0ZYRkp8uIcao08ZhDLzug0nF3kc9nPQPkGqB/abtyy2rJ5qJe2/EOP5Ld4UZw+AXCkM48Tiu0UJ05iybAC3Y8wrqY9GxkVJ28ggzp/6lo2/b5UjyKQI78yy4Qn1XCwlagLc+KYMuhPc1Erv6cm49fvHbGIECmZukGwdwteL6D1EPNNZKuqtVSB6w9aGDfwnNv+OBYcsb+aTPTudMmNCGTSeHOgP8KC+nS/oTFNdY2Emom5RVU814g1U=',
+    'REALESTATE': 'Sun%20Nov%2024%202024%2015%3A25%3A12%20GMT%2B0900%20(Korean%20Standard%20Time)',
+    'wcs_bt': '4f99b5681ce60:1732429514',
+    'BUC': 'AcaxRDhWkFsasKmNrNM8IbIYjkqmzeiJbF5Qgy_s5Qw=',
+}
+
+headers = {
+    'accept': '*/*',
+    'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7',
+    'authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlJFQUxFU1RBVEUiLCJpYXQiOjE3MzI0Mjk1MTIsImV4cCI6MTczMjQ0MDMxMn0.WsebHViURDIKb0mH4nP0BG4Zlr8YSw4c41FLilVNmIY',
+    # 'cookie': 'NAC=otGKBYgFQJqg; NNB=627SWJZ35YQGO; nid_inf=184739191; NID_AUT=W/Xv2i1jyBiG9Pqn4wKDJBbnmypDfWDrvEAg6a5RJVAJGpRaEPmP2LXSL31UUYH7; NID_JKL=p/3QoadrEM0oU/5i8q2Ay7jqxlJRDfM+EHAlBwsvv/o=; ba.uuid=7ec8cd3d-fbef-403b-b03e-9ef8c95eb876; nhn.realestate.article.trade_type_cd=""; nhn.realestate.article.ipaddress_city=3000000000; _fwb=186OA0mYbJ3K9sB2W67kDiZ.1732177776292; landHomeFlashUseYn=Y; _fwb=186OA0mYbJ3K9sB2W67kDiZ.1732177776292; nhn.realestate.article.rlet_type_cd=A01; page_uid=i0Z1OsqVOsosssPV93Rssssssbo-251805; NACT=1; realestate.beta.lastclick.cortar=3017000000; NID_SES=AAABvGK86n/dZFaIOsrGGdpdgDNCbEQeSzI3Kc7ZB/SpVkNjYTnvMOMErOYMJSmOfCRsDttSU9uRgsahMh3J8+k834zp62aUxSj0Z6swinrZU6BFFW8qj3uh6Qt46wD6Ytv8T0yEK5tqdzaKLFNKMYugU0eLW3AWNm7V3wZoXluoUTjuQBN7Tvg3ZvI7N7jfLOyOQTg42GI12Tdovo2vXvGwrtoq40HaTpKCuN6rxsa7NB0scyf9V2TCyjpe6TVlZDsL+h3E6MI4ARjpA5hqlyxqXXQo+nAjyC6DxOqZg/7kVuwLi0VYxRKOFLP+uKf3GjZjgpe3Ar6LGKJIrBA7ChNEPOtc/X6wEnwl0ZYRkp8uIcao08ZhDLzug0nF3kc9nPQPkGqB/abtyy2rJ5qJe2/EOP5Ld4UZw+AXCkM48Tiu0UJ05iybAC3Y8wrqY9GxkVJ28ggzp/6lo2/b5UjyKQI78yy4Qn1XCwlagLc+KYMuhPc1Erv6cm49fvHbGIECmZukGwdwteL6D1EPNNZKuqtVSB6w9aGDfwnNv+OBYcsb+aTPTudMmNCGTSeHOgP8KC+nS/oTFNdY2Emom5RVU814g1U=; REALESTATE=Sun%20Nov%2024%202024%2015%3A25%3A12%20GMT%2B0900%20(Korean%20Standard%20Time); wcs_bt=4f99b5681ce60:1732429514; BUC=AcaxRDhWkFsasKmNrNM8IbIYjkqmzeiJbF5Qgy_s5Qw=',
+    'priority': 'u=1, i',
+    'referer': 'https://new.land.naver.com/complexes/6372?ms=36.321777,127.40236,17&a=APT:ABYG:JGC:PRE&e=RETAIL',
+    'sec-ch-ua': '"Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"',
+    'sec-ch-ua-mobile': '?0',
+    'sec-ch-ua-platform': '"Windows"',
+    'sec-fetch-dest': 'empty',
+    'sec-fetch-mode': 'cors',
+    'sec-fetch-site': 'same-origin',
+    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
+}
+
+response = requests.get('https://new.land.naver.com/api/complexes/6372/schools', cookies=cookies, headers=headers)
+
+
+
+
+{schools: [,…], allocationMessage: "해당 단지는 주소지에 따라 초등학교가 배정됩니다."}
+allocationMessage
+: 
+"해당 단지는 주소지에 따라 초등학교가 배정됩니다."
+schools
+: 
+[,…]
+0
+: 
+{allocationMethod: "자동", arrangeBuilding: "113~116", arrangeBuildings: ["113", "114", "115", "116"],…}
+address
+: 
+"대전광역시 중구 유천2동 원평1길 40호"
+afterSchoolBaseYmd
+: 
+"20240531"
+afterSchoolProgramCount
+: 
+2
+afterSchoolStudentCount
+: 
+74
+allocationMethod
+: 
+"자동"
+arrangeBuilding
+: 
+"113~116"
+arrangeBuildings
+: 
+["113", "114", "115", "116"]
+averageStudentCountPerClassroomOnCity
+: 
+17.1
+averageStudentCountPerClassroomOnDivision
+: 
+16
+averageStudentCountPerTeacherOnCity
+: 
+10.7
+averageStudentCountPerTeacherOnDivision
+: 
+9.6
+cityName
+: 
+"대전시"
+cortarNo
+: 
+"3014011500"
+counselorBaseYmd
+: 
+"20240531"
+divisionName
+: 
+"중구"
+educationOffice
+: 
+"대전광역시교육청"
+employeeStatisticsBaseYmd
+: 
+"20240531"
+establishmentType
+: 
+"단설"
+establishmentYmd
+: 
+"19930301"
+femaleEmployeeCount
+: 
+2
+femaleStudentCount
+: 
+176
+femaleTeacherCount
+: 
+30
+fifthYearClassroomCount
+: 
+3
+fifthYearStudentCount
+: 
+83
+firstYearClassroomCount
+: 
+3
+firstYearStudentCount
+: 
+42
+fourthYearClassroomCount
+: 
+4
+fourthYearStudentCount
+: 
+44
+homepageUrl
+: 
+"http://wonpyeonges.djsch.kr"
+innerCounselorCount
+: 
+0
+latitude
+: 
+36.3219081
+libraryBaseYmd
+: 
+"20240531"
+libraryBookCount
+: 
+21490
+libraryBookCountPerPerson
+: 
+59.7
+longitude
+: 
+127.3994128
+maleEmployeeCount
+: 
+1
+maleStudentCount
+: 
+184
+maleTeacherCount
+: 
+3
+mealServicePricePerStudent
+: 
+2850
+mealServiceSupportStudentCount
+: 
+0
+mealServiceYearlySupportAmount
+: 
+0
+organizationType
+: 
+"공립"
+outerCounselorCount
+: 
+40
+schoolCode
+: 
+"G100000319"
+schoolName
+: 
+"대전원평초등학교"
+schoolVertexLists
+: 
+[[[36.3220461, 127.3963823], [36.3219181, 127.3963179], [36.3186735, 127.3974863],…]]
+0
+: 
+[[36.3220461, 127.3963823], [36.3219181, 127.3963179], [36.3186735, 127.3974863],…]
+0
+: 
+[36.3220461, 127.3963823]
+0
+: 
+36.3220461
+1
+: 
+127.3963823
+1
+: 
+[36.3219181, 127.3963179]
+0
+: 
+36.3219181
+1
+: 
+127.3963179
+2
+: 
+[36.3186735, 127.3974863]
+3
+: 
+[36.3186303, 127.3976201]
+4
+: 
+[36.32003118941296, 127.40346850978206]
+5
+: 
+[36.3209761628007, 127.40317548812814]
+6
+: 
+[36.32250322966481, 127.40263488709759]
+7
+: 
+[36.32336942396876, 127.40231916845428]
+8
+: 
+[36.32411599793008, 127.40206686400701]
+9
+: 
+[36.324327789877245, 127.40206238365886]
+10
+: 
+[36.3247374, 127.401907]
+11
+: 
+[36.32507449423384, 127.40177109582962]
+12
+: 
+[36.32549816226218, 127.40173707607993]
+13
+: 
+[36.32598753875205, 127.40159202451994]
+14
+: 
+[36.326713862840606, 127.40133124835268]
+15
+: 
+[36.3272818, 127.4011128]
+16
+: 
+[36.3269652, 127.3998932]
+17
+: 
+[36.3268886, 127.3998465]
+18
+: 
+[36.3234008, 127.401257]
+secondYearClassroomCount
+: 
+2
+secondYearStudentCount
+: 
+75
+sixthYearClassroomCount
+: 
+4
+sixthYearStudentCount
+: 
+56
+specialClassroomCount
+: 
+0
+specialClassroomStudentCount
+: 
+0
+studentCountPerClassroom
+: 
+18
+studentCountPerTeacher
+: 
+10.9
+studentStatisticsBaseYmd
+: 
+"20240531"
+telNumber
+: 
+"042-522-5981"
+thirdYearClassroomCount
+: 
+4
+thirdYearStudentCount
+: 
+67
+totalClassroomCount
+: 
+20
+totalStudentCount
+: 
+360
+walkTime
+: 
+6

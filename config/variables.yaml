@@ -1,0 +1,38 @@
+# 추출할 주요 변수들을 정의
+variables:
+  basic_info:
+    - name: complexName            # 단지명
+    - address: address            # 주소
+    - road_address: roadAddress   # 도로명주소
+    - constructor: constructionCompanyName  # 시공사
+    - approval_date: useApproveYmd         # 준공일
+    - total_households: totalHouseholdCount # 총세대수
+    - total_dong: totalDongCount           # 총동수
+    - max_floor: highFloor                 # 최고층
+    - min_floor: lowFloor                  # 최저층
+    - parking_ratio: parkingCountByHousehold # 세대당주차대수
+
+  price_info:
+    - current_price: dealOrWarrantPrc      # 현재 매물가
+    - price_per_space: dealPricePerSpaceString  # 평당가격
+    - official_price:                      # 공시가격
+        min: minPrice
+        max: maxPrice
+        year: stdYear
+    - real_transaction:                    # 실거래가
+        min: dealPriceMin
+        max: dealPriceMax
+        count: dealCount
+
+  area_info:
+    - type_name: pyeongName               # 평형명
+    - supply_area: supplyArea             # 공급면적
+    - exclusive_area: exclusiveArea       # 전용면적
+    - exclusive_rate: exclusiveRate       # 전용률
+    - room_count: roomCnt                 # 방수
+    - bathroom_count: bathroomCnt         # 화장실수
+    - entrance_type: entranceType         # 현관구조
+
+  maintenance_info:
+    - date: basisYearMonth               # 기준년월
+    - total_cost: totalPrice             # 총관리비 
